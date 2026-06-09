@@ -48,7 +48,7 @@
     .firma-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
     .firma-header label { margin: 0; }
     .btn-borrar { font-size: 0.72rem; color: var(--red); background: none; border: none; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; }
-    #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; cursor: crosshair; touch-action: none; display: block; }
+    #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; background: #ffffff; cursor: crosshair; touch-action: none; display: block; }
     .firma-hint { font-size: 0.68rem; color: #b0aca4; margin-top: 0.4rem; text-align: center; }
     .submit-area { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--light); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
     .legal-text { font-size: 0.68rem; color: var(--muted); line-height: 1.6; text-align: justify; }
@@ -174,17 +174,12 @@
   }
   function getVal(id) { return (document.getElementById(id)?.value || '').trim(); }
 
-  // ── Firma ─────────────────────────────────────────────────────────────
+  // ── Firma: guardamos los TRAZOS como puntos (vectores), no como imagen ──
   const firmaCanvas = document.getElementById('firmaCanvas');
   const firmaCtx = firmaCanvas.getContext('2d');
-  let dibujando = false, ultPos = { x: 0, y: 0 };
-
-  // Fondo blanco desde el inicio — clave para que el JPEG no salga negro
-  function limpiarFirma() {
-    firmaCtx.fillStyle = '#ffffff';
-    firmaCtx.fillRect(0, 0, firmaCanvas.width, firmaCanvas.height);
-  }
-  limpiarFirma(); // inicializar al cargar
+  let dibujando = false;
+  let trazoActual = [];      // puntos del trazo en curso
+  let trazos = [];           // array de trazos completados [[{x,y},...], ...]
 
   function getPos(e) {
     const r = firmaCanvas.getBoundingClientRect();
@@ -192,26 +187,43 @@
     const s = e.touches ? e.touches[0] : e;
     return { x: (s.clientX - r.left) * sx, y: (s.clientY - r.top) * sy };
   }
-  function trazo(pos) {
-    firmaCtx.beginPath(); firmaCtx.moveTo(ultPos.x, ultPos.y); firmaCtx.lineTo(pos.x, pos.y);
-    firmaCtx.strokeStyle = '#000000'; firmaCtx.lineWidth = 2.5; firmaCtx.lineCap = 'round'; firmaCtx.lineJoin = 'round'; firmaCtx.stroke();
-    ultPos = pos;
-  }
-  firmaCanvas.addEventListener('mousedown', e => { dibujando = true; ultPos = getPos(e); });
-  firmaCanvas.addEventListener('mousemove', e => { if (dibujando) trazo(getPos(e)); });
-  firmaCanvas.addEventListener('mouseup', () => dibujando = false);
-  firmaCanvas.addEventListener('mouseleave', () => dibujando = false);
-  firmaCanvas.addEventListener('touchstart', e => { e.preventDefault(); dibujando = true; ultPos = getPos(e); }, { passive: false });
-  firmaCanvas.addEventListener('touchmove', e => { e.preventDefault(); if (dibujando) trazo(getPos(e)); }, { passive: false });
-  firmaCanvas.addEventListener('touchend', () => dibujando = false);
 
-  function firmaVacia() {
-    // Con fondo blanco, comprobamos si hay píxeles no blancos
-    const d = firmaCtx.getImageData(0, 0, firmaCanvas.width, firmaCanvas.height).data;
-    for (let i = 0; i < d.length; i += 4) {
-      if (d[i] < 250 || d[i+1] < 250 || d[i+2] < 250) return false;
-    }
-    return true;
+  function empezar(e) {
+    dibujando = true;
+    trazoActual = [getPos(e)];
+  }
+  function mover(e) {
+    if (!dibujando) return;
+    const pos = getPos(e);
+    const prev = trazoActual[trazoActual.length - 1];
+    trazoActual.push(pos);
+    firmaCtx.beginPath();
+    firmaCtx.moveTo(prev.x, prev.y);
+    firmaCtx.lineTo(pos.x, pos.y);
+    firmaCtx.strokeStyle = '#000000';
+    firmaCtx.lineWidth = 2.5;
+    firmaCtx.lineCap = 'round';
+    firmaCtx.lineJoin = 'round';
+    firmaCtx.stroke();
+  }
+  function terminar() {
+    if (dibujando && trazoActual.length > 1) trazos.push(trazoActual);
+    dibujando = false;
+    trazoActual = [];
+  }
+
+  firmaCanvas.addEventListener('mousedown', empezar);
+  firmaCanvas.addEventListener('mousemove', mover);
+  firmaCanvas.addEventListener('mouseup', terminar);
+  firmaCanvas.addEventListener('mouseleave', terminar);
+  firmaCanvas.addEventListener('touchstart', e => { e.preventDefault(); empezar(e); }, { passive: false });
+  firmaCanvas.addEventListener('touchmove', e => { e.preventDefault(); mover(e); }, { passive: false });
+  firmaCanvas.addEventListener('touchend', e => { e.preventDefault(); terminar(); }, { passive: false });
+
+  function limpiarFirma() {
+    firmaCtx.clearRect(0, 0, firmaCanvas.width, firmaCanvas.height);
+    trazos = [];
+    trazoActual = [];
   }
 
   // ── Grúa ──────────────────────────────────────────────────────────────
@@ -235,6 +247,27 @@
     doc.rect(x + 40*s, y + 33*s, 4*s, 3*s, 'F');
     doc.setLineWidth(0.5);
     doc.line(x + 4*s, y + 63*s, x + 60*s, y + 63*s);
+  }
+
+  // ── Firma vectorial en el PDF: redibujamos los trazos con doc.line ────
+  function dibujarFirmaVectorial(doc, boxX, boxY, boxW, boxH) {
+    if (trazos.length === 0) return;
+    // Escala: canvas 600x160 → caja del PDF
+    const escX = boxW / firmaCanvas.width;
+    const escY = boxH / firmaCanvas.height;
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.5);
+    doc.setLineCap('round');
+    doc.setLineJoin('round');
+    trazos.forEach(trazo => {
+      for (let i = 1; i < trazo.length; i++) {
+        const x1 = boxX + trazo[i-1].x * escX;
+        const y1 = boxY + trazo[i-1].y * escY;
+        const x2 = boxX + trazo[i].x * escX;
+        const y2 = boxY + trazo[i].y * escY;
+        doc.line(x1, y1, x2, y2);
+      }
+    });
   }
 
   // ── Generación PDF ────────────────────────────────────────────────────
@@ -285,7 +318,7 @@
     doc.text('B Alta', 112, 33);
     doc.text('B Baja', 128, 33);
     doc.setFont('helvetica', 'bold');
-    if (esAlta) doc.text('☑', 110.5, 33.3); else doc.text('☑', 126.5, 33.3);
+    if (esAlta) doc.text('X', 109.5, 33); else doc.text('X', 125.5, 33);
     doc.setFont('helvetica', 'normal');
     doc.text('Motivo', 150, 33);
     doc.setLineWidth(0.2);
@@ -356,15 +389,12 @@
     doc.text(lineasSolicito, M, y);
     y += lineasSolicito.length * 4.8 + 6;
 
-    // ── FIRMA — canvas con fondo blanco exportado a JPEG ──
-    doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.4);
+    // ── FIRMA — dibujada como LÍNEAS VECTORIALES, no como imagen ──
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.4);
     doc.rect(M, y, 72, 32);
 
-    if (!firmaVacia()) {
-      try {
-        doc.addImage(firmaCanvas.toDataURL('image/jpeg', 0.85), 'JPEG', M + 1, y + 1, 70, 30);
-      } catch(e) { console.error('firma error', e); }
-    }
+    dibujarFirmaVectorial(doc, M + 2, y + 2, 68, 28);
 
     doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(80, 80, 80);
     doc.text('Firma del solicitante', M + 36, y + 37, { align: 'center' });
