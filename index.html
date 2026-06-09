@@ -48,7 +48,7 @@
     .firma-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
     .firma-header label { margin: 0; }
     .btn-borrar { font-size: 0.72rem; color: var(--red); background: none; border: none; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; }
-    #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; background: #faf9f7; cursor: crosshair; touch-action: none; display: block; }
+    #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; cursor: crosshair; touch-action: none; display: block; }
     .firma-hint { font-size: 0.68rem; color: #b0aca4; margin-top: 0.4rem; text-align: center; }
     .submit-area { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--light); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
     .legal-text { font-size: 0.68rem; color: var(--muted); line-height: 1.6; text-align: justify; }
@@ -179,6 +179,13 @@
   const firmaCtx = firmaCanvas.getContext('2d');
   let dibujando = false, ultPos = { x: 0, y: 0 };
 
+  // Fondo blanco desde el inicio — clave para que el JPEG no salga negro
+  function limpiarFirma() {
+    firmaCtx.fillStyle = '#ffffff';
+    firmaCtx.fillRect(0, 0, firmaCanvas.width, firmaCanvas.height);
+  }
+  limpiarFirma(); // inicializar al cargar
+
   function getPos(e) {
     const r = firmaCanvas.getBoundingClientRect();
     const sx = firmaCanvas.width / r.width, sy = firmaCanvas.height / r.height;
@@ -187,7 +194,7 @@
   }
   function trazo(pos) {
     firmaCtx.beginPath(); firmaCtx.moveTo(ultPos.x, ultPos.y); firmaCtx.lineTo(pos.x, pos.y);
-    firmaCtx.strokeStyle = '#0f1c2e'; firmaCtx.lineWidth = 2; firmaCtx.lineCap = 'round'; firmaCtx.lineJoin = 'round'; firmaCtx.stroke();
+    firmaCtx.strokeStyle = '#000000'; firmaCtx.lineWidth = 2.5; firmaCtx.lineCap = 'round'; firmaCtx.lineJoin = 'round'; firmaCtx.stroke();
     ultPos = pos;
   }
   firmaCanvas.addEventListener('mousedown', e => { dibujando = true; ultPos = getPos(e); });
@@ -197,41 +204,35 @@
   firmaCanvas.addEventListener('touchstart', e => { e.preventDefault(); dibujando = true; ultPos = getPos(e); }, { passive: false });
   firmaCanvas.addEventListener('touchmove', e => { e.preventDefault(); if (dibujando) trazo(getPos(e)); }, { passive: false });
   firmaCanvas.addEventListener('touchend', () => dibujando = false);
-  function limpiarFirma() { firmaCtx.clearRect(0, 0, firmaCanvas.width, firmaCanvas.height); }
+
   function firmaVacia() {
+    // Con fondo blanco, comprobamos si hay píxeles no blancos
     const d = firmaCtx.getImageData(0, 0, firmaCanvas.width, firmaCanvas.height).data;
-    for (let i = 3; i < d.length; i += 4) if (d[i] > 0) return false;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i] < 250 || d[i+1] < 250 || d[i+2] < 250) return false;
+    }
     return true;
   }
 
-  // ── Grúa SVG para el PDF (dibujada con jsPDF) ─────────────────────────
+  // ── Grúa ──────────────────────────────────────────────────────────────
   function dibujarGrua(doc, x, y, size) {
     const s = size / 64;
-    doc.setDrawColor(100, 100, 100);
-    doc.setFillColor(100, 100, 100);
+    doc.setDrawColor(80, 80, 80);
+    doc.setFillColor(80, 80, 80);
     doc.setLineWidth(0.3);
-    // Base vertical
     doc.rect(x + 26*s, y + 32*s, 6*s, 28*s, 'F');
-    // Plataforma
     doc.rect(x + 20*s, y + 30*s, 24*s, 4*s, 'F');
-    // Mástil izquierdo
     doc.rect(x + 20*s, y + 14*s, 3*s, 18*s, 'F');
-    // Brazo horizontal
     doc.rect(x + 12*s, y + 14*s, 32*s, 3*s, 'F');
-    // Contrapeso derecho
     doc.rect(x + 41*s, y + 14*s, 3*s, 10*s, 'F');
-    // Cables
     doc.setLineWidth(0.4);
     doc.line(x + 23*s, y + 17*s, x + 29*s, y + 30*s);
     doc.line(x + 23*s, y + 17*s, x + 35*s, y + 30*s);
     doc.line(x + 44*s, y + 17*s, x + 35*s, y + 30*s);
-    // Cabina
     doc.rect(x + 27*s, y + 22*s, 4*s, 8*s, 'F');
-    // Gancho
     doc.rect(x + 40*s, y + 24*s, 4*s, 6*s, 'F');
     doc.line(x + 42*s, y + 24*s, x + 42*s, y + 34*s);
     doc.rect(x + 40*s, y + 33*s, 4*s, 3*s, 'F');
-    // Suelo
     doc.setLineWidth(0.5);
     doc.line(x + 4*s, y + 63*s, x + 60*s, y + 63*s);
   }
@@ -245,15 +246,12 @@
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, W, H, 'F');
 
-    // ── Grúa ──
     dibujarGrua(doc, M, 2, 22);
 
-    // ── Separador vertical entre grúa y texto ──
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.6);
     doc.line(M + 24, 4, M + 24, 24);
 
-    // ── S.E.I. + subtítulo ──
     doc.setFont('times', 'bold');
     doc.setFontSize(22);
     doc.setTextColor(0, 0, 0);
@@ -263,7 +261,6 @@
     doc.setFontSize(7);
     doc.text('DOCKERS VALENCIA', M + 28, 19);
 
-    // ── Dirección ──
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(30, 30, 30);
@@ -273,7 +270,6 @@
     doc.text('Edificio SEVASA - Puerto de Valencia', M, 43.5);
     doc.text('46024 - VALENCIA', M, 48);
 
-    // ── Recuadro SOLICITUD DE AFILIACIÓN ──
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.6);
     doc.rect(112, 14, 83, 12);
@@ -282,14 +278,12 @@
     doc.setTextColor(0, 0, 0);
     doc.text('SOLICITUD DE AFILIACIÓN', 153.5, 22, { align: 'center' });
 
-    // ── Alta / Baja + Motivo ──
     const esAlta = datos.tipo === 'alta';
     doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(0, 0, 0);
     doc.text('B Alta', 112, 33);
     doc.text('B Baja', 128, 33);
-    // Tick
     doc.setFont('helvetica', 'bold');
     if (esAlta) doc.text('☑', 110.5, 33.3); else doc.text('☑', 126.5, 33.3);
     doc.setFont('helvetica', 'normal');
@@ -297,45 +291,29 @@
     doc.setLineWidth(0.2);
     doc.line(161, 33.5, 193, 33.5);
 
-    // ── Línea separadora horizontal ──
     doc.setLineWidth(0.4);
     doc.line(M, 52, W - M, 52);
 
     let y = 60;
 
-    // ── Helpers ──
     const linea = (x1, x2, yp) => {
-      doc.setDrawColor(0, 0, 0);
-      doc.setLineWidth(0.2);
-      doc.line(x1, yp, x2, yp);
+      doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.2); doc.line(x1, yp, x2, yp);
     };
-
     const etiqueta = (txt, x, yp) => {
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(7.5);
-      doc.setTextColor(30, 30, 30);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(30, 30, 30);
       doc.text(txt + ':', x, yp);
     };
-
     const valor = (txt, x, yp) => {
       if (!txt) return;
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(0, 0, 0);
       doc.text(txt, x, yp);
     };
-
     const seccion = (titulo, yp) => {
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-      doc.text('• ' + titulo, M, yp);
-      return yp + 7;
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(0, 0, 0);
+      doc.text('• ' + titulo, M, yp); return yp + 7;
     };
 
-    // ── DATOS PERSONALES ──
     y = seccion('Datos personales', y);
-
     etiqueta('Nombre', M, y); valor(datos.nombre, M + 16, y); linea(M + 15, 100, y + 0.5);
     y += 8;
     etiqueta('Apellidos', M, y); valor(datos.apellidos, M + 20, y); linea(M + 19, W - M, y + 0.5);
@@ -352,37 +330,25 @@
     etiqueta('Provincia', 130, y); linea(130 + 17, W - M, y + 0.5);
     y += 12;
 
-    // ── DATOS LABORALES ──
     y = seccion('Datos laborales', y);
     etiqueta('Empresa', M, y); linea(M + 17, 110, y + 0.5);
     etiqueta('Nº Turno', 115, y); valor(datos.numTurno, 115 + 19, y); linea(115 + 18, W - M, y + 0.5);
     y += 14;
 
-    // ── DOMICILIACIÓN BANCARIA ──
-    doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.4);
+    doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.4);
     doc.rect(M, y, W - M*2, 38);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
     doc.text('Domiciliación bancaria (Sólo trabajadores de la Bolsa)', (W - M*2)/2 + M, y + 5.5, { align: 'center' });
-    const filasBanco = [
-      ['Banco o caja', y + 13],
-      ['Dirección', y + 21],
-      ['Provincia', y + 29],
-      ['Nº Cuenta', y + 37],
-    ];
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+    const filasBanco = [['Banco o caja', y+13], ['Dirección', y+21], ['Provincia', y+29], ['Nº Cuenta', y+37]];
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
     filasBanco.forEach(([lbl, yb]) => {
       etiqueta(lbl, M + 3, yb);
       linea(M + 3 + doc.getTextWidth(lbl + ':') + 2, W - M - 3, yb + 0.5);
     });
     y += 44;
 
-    // ── DESCUENTO EN NÓMINA ──
     y = seccion('Descuento en nómina', y);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8.5);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
     doc.text('Solicito', M, y);
     doc.setFont('helvetica', 'normal');
     const textoSolicito = ' que desde la recepción de la presente procedan mensualmente a descontar de mi nómina, a partir de la siguiente que se encuentre por procesar, la cuota sindical que en concepto de afiliación me corresponde abonar al S.E.I.-SEVASA.';
@@ -390,41 +356,30 @@
     doc.text(lineasSolicito, M, y);
     y += lineasSolicito.length * 4.8 + 6;
 
-    // ── FIRMA ──
-    doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.4);
+    // ── FIRMA — canvas con fondo blanco exportado a JPEG ──
+    doc.setDrawColor(0, 0, 0); doc.setLineWidth(0.4);
     doc.rect(M, y, 72, 32);
 
     if (!firmaVacia()) {
-      doc.setFillColor(255, 255, 255);
-      doc.rect(M + 2, y + 2, 68, 28, 'F');
-      try { doc.addImage(firmaCanvas.toDataURL('image/png'), 'PNG', M + 2, y + 2, 68, 28); } catch(e) {}
+      try {
+        doc.addImage(firmaCanvas.toDataURL('image/jpeg', 0.85), 'JPEG', M + 1, y + 1, 70, 30);
+      } catch(e) { console.error('firma error', e); }
     }
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(80, 80, 80);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(80, 80, 80);
     doc.text('Firma del solicitante', M + 36, y + 37, { align: 'center' });
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(0, 0, 0);
     doc.text('Fecha:', 110, y + 22);
     doc.setFont('helvetica', 'bold');
     doc.text(datos.fecha, 123, y + 22);
-    doc.setLineWidth(0.2);
-    linea(110, W - M, y + 23.5);
+    doc.setLineWidth(0.2); linea(110, W - M, y + 23.5);
     y += 44;
 
-    // ── Línea separadora ──
-    doc.setLineWidth(0.5);
-    doc.line(M, y, W - M, y);
+    doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
     y += 5;
 
-    // ── Texto legal ──
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(60, 60, 60);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(6.5); doc.setTextColor(60, 60, 60);
     const legal = 'La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.';
     doc.text(doc.splitTextToSize(legal, W - M*2), M, y);
 
@@ -435,28 +390,19 @@
   document.getElementById('afilForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const datos = {
-      tipo: getVal('tipo'),
-      nombre: getVal('nombre'),
-      apellidos: getVal('apellidos'),
-      dni: getVal('dni'),
-      telefono: getVal('telefono'),
-      numTurno: getVal('numTurno'),
+      tipo: getVal('tipo'), nombre: getVal('nombre'), apellidos: getVal('apellidos'),
+      dni: getVal('dni'), telefono: getVal('telefono'), numTurno: getVal('numTurno'),
       fecha: new Date().toLocaleDateString('es-ES')
     };
-
     const btn = document.getElementById('btnEnviar');
     const msgBox = document.getElementById('msgBox');
-    btn.disabled = true;
-    btn.textContent = 'Generando y enviando…';
-    msgBox.className = 'message-box';
-    msgBox.textContent = '';
-
+    btn.disabled = true; btn.textContent = 'Generando y enviando…';
+    msgBox.className = 'message-box'; msgBox.textContent = '';
     try {
       const pdfDataUri = generarPDF(datos);
       const base64 = pdfDataUri.split(',')[1];
       const res = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...datos, pdfBase64: base64 })
       });
       if (res.ok || res.status === 200) {
@@ -465,13 +411,10 @@
         document.getElementById('afilForm').reset();
         limpiarFirma();
         setTipo('alta');
-      } else {
-        throw new Error('Error ' + res.status);
-      }
+      } else { throw new Error('Error ' + res.status); }
     } catch (err) {
       msgBox.className = 'message-box error';
       msgBox.textContent = 'Error al enviar la solicitud. Inténtalo de nuevo o contacta con el sindicato.';
-      console.error(err);
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg> Enviar solicitud';
