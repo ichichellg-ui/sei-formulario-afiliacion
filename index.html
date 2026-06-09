@@ -14,7 +14,6 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Barlow', sans-serif; background: var(--navy); color: var(--text); min-height: 100vh; }
-
     header { background: var(--navy); padding: 0; position: relative; overflow: hidden; }
     header::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -29,46 +28,37 @@
     .header-title h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; color: var(--gold-light); letter-spacing: 0.15em; text-transform: uppercase; }
     .header-title p { font-size: 0.75rem; color: rgba(245,243,238,0.45); margin-top: 0.25rem; }
     .gold-bar { height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, transparent 100%); }
-
     main { background: var(--white); max-width: 680px; margin: 0 auto; padding: 2.5rem 1.75rem 4rem; }
-
     .section-header { display: flex; align-items: center; gap: 0.75rem; margin: 2rem 0 1.25rem; }
     .section-header:first-of-type { margin-top: 0; }
     .section-num { width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .section-header h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); }
     .section-line { flex: 1; height: 1px; background: var(--light); }
-
     .tipo-toggle { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; background: var(--light); padding: 0.3rem; border-radius: 8px; width: fit-content; }
     .tipo-btn { padding: 0.5rem 2rem; border: none; border-radius: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--muted); }
     .tipo-btn.active-alta { background: var(--navy); color: var(--gold); }
     .tipo-btn.active-baja { background: var(--red); color: white; }
-
     .field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
     label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     input { font-family: 'Barlow', sans-serif; font-size: 0.95rem; padding: 0.65rem 0.85rem; border: 1.5px solid #d1cfc8; border-radius: 6px; background: white; color: var(--text); transition: border-color 0.15s; width: 100%; }
     input:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,28,46,0.08); }
     input::placeholder { color: #b0aca4; }
-
     .firma-box { border: 1.5px solid #d1cfc8; border-radius: 8px; padding: 1rem; background: white; margin-bottom: 1rem; }
     .firma-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
     .firma-header label { margin: 0; }
     .btn-borrar { font-size: 0.72rem; color: var(--red); background: none; border: none; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; }
     #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; background: #faf9f7; cursor: crosshair; touch-action: none; display: block; }
     .firma-hint { font-size: 0.68rem; color: #b0aca4; margin-top: 0.4rem; text-align: center; }
-
     .submit-area { margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--light); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
     .legal-text { font-size: 0.68rem; color: var(--muted); line-height: 1.6; text-align: justify; }
     .btn-submit { display: flex; align-items: center; gap: 0.75rem; background: var(--navy); color: var(--gold); border: none; padding: 1rem 3rem; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
     .btn-submit:hover { background: var(--navy-mid); transform: translateY(-1px); }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
     .message-box { display: none; padding: 1.25rem 1.5rem; border-radius: 8px; font-size: 0.88rem; font-weight: 500; text-align: center; width: 100%; }
     .message-box.success { display: block; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; }
     .message-box.error { display: block; background: #fdecea; color: #c62828; border: 1.5px solid #ef9a9a; }
-
     footer { background: var(--navy); text-align: center; padding: 1.5rem; color: rgba(245,243,238,0.3); font-size: 0.68rem; letter-spacing: 0.05em; }
-
     @media (max-width: 540px) {
       .header-inner { flex-wrap: wrap; gap: 0.75rem; }
       .divider-v { display: none; }
@@ -157,14 +147,12 @@
         <label>Dibuja tu firma aquí</label>
         <button type="button" class="btn-borrar" onclick="limpiarFirma()">✕ Borrar</button>
       </div>
-      <canvas id="firmaCanvas" width="800" height="200"></canvas>
+      <canvas id="firmaCanvas" width="600" height="160"></canvas>
       <p class="firma-hint">Usa el dedo o el ratón para firmar</p>
     </div>
 
     <div class="submit-area">
-      <p class="legal-text">
-        La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.
-      </p>
+      <p class="legal-text">La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.</p>
       <div id="msgBox" class="message-box"></div>
       <button type="submit" class="btn-submit" id="btnEnviar">
         <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
@@ -184,7 +172,6 @@
     document.getElementById('btnAlta').className = 'tipo-btn' + (t === 'alta' ? ' active-alta' : '');
     document.getElementById('btnBaja').className = 'tipo-btn' + (t === 'baja' ? ' active-baja' : '');
   }
-
   function getVal(id) { return (document.getElementById(id)?.value || '').trim(); }
 
   // ── Firma ─────────────────────────────────────────────────────────────
@@ -200,7 +187,7 @@
   }
   function trazo(pos) {
     firmaCtx.beginPath(); firmaCtx.moveTo(ultPos.x, ultPos.y); firmaCtx.lineTo(pos.x, pos.y);
-    firmaCtx.strokeStyle = '#0f1c2e'; firmaCtx.lineWidth = 2.5; firmaCtx.lineCap = 'round'; firmaCtx.lineJoin = 'round'; firmaCtx.stroke();
+    firmaCtx.strokeStyle = '#0f1c2e'; firmaCtx.lineWidth = 2; firmaCtx.lineCap = 'round'; firmaCtx.lineJoin = 'round'; firmaCtx.stroke();
     ultPos = pos;
   }
   firmaCanvas.addEventListener('mousedown', e => { dibujando = true; ultPos = getPos(e); });
@@ -210,81 +197,134 @@
   firmaCanvas.addEventListener('touchstart', e => { e.preventDefault(); dibujando = true; ultPos = getPos(e); }, { passive: false });
   firmaCanvas.addEventListener('touchmove', e => { e.preventDefault(); if (dibujando) trazo(getPos(e)); }, { passive: false });
   firmaCanvas.addEventListener('touchend', () => dibujando = false);
-
   function limpiarFirma() { firmaCtx.clearRect(0, 0, firmaCanvas.width, firmaCanvas.height); }
-
   function firmaVacia() {
     const d = firmaCtx.getImageData(0, 0, firmaCanvas.width, firmaCanvas.height).data;
     for (let i = 3; i < d.length; i += 4) if (d[i] > 0) return false;
     return true;
   }
 
-  // ── Generación PDF (idéntico al documento original) ───────────────────
+  // ── Grúa SVG para el PDF (dibujada con jsPDF) ─────────────────────────
+  function dibujarGrua(doc, x, y, size) {
+    const s = size / 64;
+    doc.setDrawColor(100, 100, 100);
+    doc.setFillColor(100, 100, 100);
+    doc.setLineWidth(0.3);
+    // Base vertical
+    doc.rect(x + 26*s, y + 32*s, 6*s, 28*s, 'F');
+    // Plataforma
+    doc.rect(x + 20*s, y + 30*s, 24*s, 4*s, 'F');
+    // Mástil izquierdo
+    doc.rect(x + 20*s, y + 14*s, 3*s, 18*s, 'F');
+    // Brazo horizontal
+    doc.rect(x + 12*s, y + 14*s, 32*s, 3*s, 'F');
+    // Contrapeso derecho
+    doc.rect(x + 41*s, y + 14*s, 3*s, 10*s, 'F');
+    // Cables
+    doc.setLineWidth(0.4);
+    doc.line(x + 23*s, y + 17*s, x + 29*s, y + 30*s);
+    doc.line(x + 23*s, y + 17*s, x + 35*s, y + 30*s);
+    doc.line(x + 44*s, y + 17*s, x + 35*s, y + 30*s);
+    // Cabina
+    doc.rect(x + 27*s, y + 22*s, 4*s, 8*s, 'F');
+    // Gancho
+    doc.rect(x + 40*s, y + 24*s, 4*s, 6*s, 'F');
+    doc.line(x + 42*s, y + 24*s, x + 42*s, y + 34*s);
+    doc.rect(x + 40*s, y + 33*s, 4*s, 3*s, 'F');
+    // Suelo
+    doc.setLineWidth(0.5);
+    doc.line(x + 4*s, y + 63*s, x + 60*s, y + 63*s);
+  }
+
+  // ── Generación PDF ────────────────────────────────────────────────────
   function generarPDF(datos) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
     const W = 210, H = 297, M = 15;
 
-    // ── Cabecera izquierda: S.E.I. + dirección ──
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(26);
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 0, W, H, 'F');
+
+    // ── Grúa ──
+    dibujarGrua(doc, M, 2, 22);
+
+    // ── Separador vertical entre grúa y texto ──
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.6);
+    doc.line(M + 24, 4, M + 24, 24);
+
+    // ── S.E.I. + subtítulo ──
+    doc.setFont('times', 'bold');
+    doc.setFontSize(22);
     doc.setTextColor(0, 0, 0);
-    doc.text('S.E.I.', M, 18);
+    doc.text('S E I', M + 28, 14);
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.setTextColor(30, 30, 30);
-    doc.text('SINDICATO DE ESTIBADORES', M, 25);
-    doc.text('INDEPENDIENTE', M, 29.5);
-    doc.text('Ampliación Sur S/N', M, 34);
-    doc.text('Edificio SEVASA- Puerto de Valencia', M, 38.5);
-    doc.text('46024 - VALENCIA', M, 43);
+    doc.setFontSize(7);
+    doc.text('DOCKERS VALENCIA', M + 28, 19);
 
-    // ── Recuadro SOLICITUD DE AFILIACIÓN (derecha) ──
+    // ── Dirección ──
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(30, 30, 30);
+    doc.text('SINDICATO DE ESTIBADORES', M, 30);
+    doc.text('INDEPENDIENTE', M, 34.5);
+    doc.text('Ampliación Sur S/N', M, 39);
+    doc.text('Edificio SEVASA - Puerto de Valencia', M, 43.5);
+    doc.text('46024 - VALENCIA', M, 48);
+
+    // ── Recuadro SOLICITUD DE AFILIACIÓN ──
     doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.5);
-    doc.rect(115, 12, 80, 14);
+    doc.setLineWidth(0.6);
+    doc.rect(112, 14, 83, 12);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.setTextColor(0, 0, 0);
-    doc.text('SOLICITUD DE AFILIACIÓN', 155, 21, { align: 'center' });
+    doc.text('SOLICITUD DE AFILIACIÓN', 153.5, 22, { align: 'center' });
 
-    // ── Alta / Baja ──
+    // ── Alta / Baja + Motivo ──
     const esAlta = datos.tipo === 'alta';
     doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(0, 0, 0);
-    doc.text(esAlta ? '☑' : '☐', 115, 32); doc.text(' Alta', 120, 32);
-    doc.text(!esAlta ? '☑' : '☐', 135, 32); doc.text(' Baja', 140, 32);
-    doc.text('Motivo', 155, 32);
-    doc.setLineWidth(0.3); doc.setDrawColor(0,0,0);
-    doc.line(168, 32, 193, 32);
+    doc.text('B Alta', 112, 33);
+    doc.text('B Baja', 128, 33);
+    // Tick
+    doc.setFont('helvetica', 'bold');
+    if (esAlta) doc.text('☑', 110.5, 33.3); else doc.text('☑', 126.5, 33.3);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Motivo', 150, 33);
+    doc.setLineWidth(0.2);
+    doc.line(161, 33.5, 193, 33.5);
 
-    // ── Línea separadora ──
-    doc.setLineWidth(0.5);
-    doc.line(M, 47, W - M, 47);
+    // ── Línea separadora horizontal ──
+    doc.setLineWidth(0.4);
+    doc.line(M, 52, W - M, 52);
 
-    let y = 55;
+    let y = 60;
 
-    // ── Helper: campo con línea ──
-    const campo = (label, valor, x, ancho, yp) => {
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(30, 30, 30);
-      doc.text(label + ':', x, yp);
-      const lw = doc.getTextWidth(label + ': ');
-      if (valor) {
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9);
-        doc.setTextColor(0, 0, 0);
-        doc.text(valor, x + lw + 1, yp);
-      }
+    // ── Helpers ──
+    const linea = (x1, x2, yp) => {
       doc.setDrawColor(0, 0, 0);
       doc.setLineWidth(0.2);
-      doc.line(x + lw, yp + 1, x + ancho, yp + 1);
+      doc.line(x1, yp, x2, yp);
     };
 
-    // ── Sección helper ──
+    const etiqueta = (txt, x, yp) => {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(30, 30, 30);
+      doc.text(txt + ':', x, yp);
+    };
+
+    const valor = (txt, x, yp) => {
+      if (!txt) return;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+      doc.text(txt, x, yp);
+    };
+
     const seccion = (titulo, yp) => {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -295,21 +335,27 @@
 
     // ── DATOS PERSONALES ──
     y = seccion('Datos personales', y);
-    campo('Nombre', datos.nombre, M, 75, y); y += 8;
-    campo('Apellidos', datos.apellidos, M, 175, y); y += 8;
-    campo('DNI', datos.dni, M, 55, y);
-    campo('Fecha de nacimiento', '', 90, 115, y); y += 8;
-    campo('Teléfono/Móvil/E-mail', datos.telefono, M, 175, y); y += 8;
-    campo('Domicilio', '', M, 175, y); y += 8;
-    campo('C.P.', '', M, 28, y);
-    campo('Localidad', '', 48, 103, y);
-    campo('Provincia', '', 120, 175, y);
+
+    etiqueta('Nombre', M, y); valor(datos.nombre, M + 16, y); linea(M + 15, 100, y + 0.5);
+    y += 8;
+    etiqueta('Apellidos', M, y); valor(datos.apellidos, M + 20, y); linea(M + 19, W - M, y + 0.5);
+    y += 8;
+    etiqueta('DNI', M, y); valor(datos.dni, M + 10, y); linea(M + 9, 78, y + 0.5);
+    etiqueta('Fecha de nacimiento', 85, y); linea(85 + 35, 150, y + 0.5);
+    y += 8;
+    etiqueta('Teléfono/Móvil/E-mail', M, y); valor(datos.telefono, M + 40, y); linea(M + 39, W - M, y + 0.5);
+    y += 8;
+    etiqueta('Domicilio', M, y); linea(M + 19, W - M, y + 0.5);
+    y += 8;
+    etiqueta('C.P.', M, y); linea(M + 9, 45, y + 0.5);
+    etiqueta('Localidad', 50, y); linea(50 + 19, 125, y + 0.5);
+    etiqueta('Provincia', 130, y); linea(130 + 17, W - M, y + 0.5);
     y += 12;
 
     // ── DATOS LABORALES ──
     y = seccion('Datos laborales', y);
-    campo('Empresa', '', M, 95, y);
-    campo('Nº Turno', datos.numTurno, 110, 175, y);
+    etiqueta('Empresa', M, y); linea(M + 17, 110, y + 0.5);
+    etiqueta('Nº Turno', 115, y); valor(datos.numTurno, 115 + 19, y); linea(115 + 18, W - M, y + 0.5);
     y += 14;
 
     // ── DOMICILIACIÓN BANCARIA ──
@@ -318,57 +364,60 @@
     doc.rect(M, y, W - M*2, 38);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8.5);
-    doc.setTextColor(0, 0, 0);
-    doc.text('Domiciliación bancaria (Sólo trabajadores de la Bolsa)', M + (W - M*2)/2, y + 5.5, { align: 'center' });
+    doc.text('Domiciliación bancaria (Sólo trabajadores de la Bolsa)', (W - M*2)/2 + M, y + 5.5, { align: 'center' });
+    const filasBanco = [
+      ['Banco o caja', y + 13],
+      ['Dirección', y + 21],
+      ['Provincia', y + 29],
+      ['Nº Cuenta', y + 37],
+    ];
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    const bancoCampos = [
-      ['Banco o caja', y + 12],
-      ['Dirección', y + 20],
-      ['Provincia', y + 28],
-      ['Nº Cuenta', y + 36],
-    ];
-    bancoCampos.forEach(([lbl, yb]) => {
-      doc.text(lbl + ':', M + 3, yb);
-      doc.setLineWidth(0.2);
-      doc.line(M + 3 + doc.getTextWidth(lbl + ': '), yb + 1, W - M - 3, yb + 1);
+    filasBanco.forEach(([lbl, yb]) => {
+      etiqueta(lbl, M + 3, yb);
+      linea(M + 3 + doc.getTextWidth(lbl + ':') + 2, W - M - 3, yb + 0.5);
     });
     y += 44;
 
     // ── DESCUENTO EN NÓMINA ──
     y = seccion('Descuento en nómina', y);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
+    doc.setFontSize(8.5);
     doc.text('Solicito', M, y);
     doc.setFont('helvetica', 'normal');
-    const textoDesc = ' que desde la recepción de la presente procedan mensualmente a descontar de mi nómina, a partir de la siguiente que se encuentre por procesar, la cuota sindical que en concepto de afiliación me corresponde abonar al S.E.I.-SEVASA.';
-    const lineasDesc = doc.splitTextToSize('Solicito' + textoDesc, W - M*2);
-    doc.text(lineasDesc, M, y);
-    y += lineasDesc.length * 4.5 + 6;
+    const textoSolicito = ' que desde la recepción de la presente procedan mensualmente a descontar de mi nómina, a partir de la siguiente que se encuentre por procesar, la cuota sindical que en concepto de afiliación me corresponde abonar al S.E.I.-SEVASA.';
+    const lineasSolicito = doc.splitTextToSize('Solicito' + textoSolicito, W - M*2);
+    doc.text(lineasSolicito, M, y);
+    y += lineasSolicito.length * 4.8 + 6;
 
-    // ── FIRMA Y FECHA ──
+    // ── FIRMA ──
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.4);
-    doc.rect(M, y, 70, 30);
+    doc.rect(M, y, 72, 32);
 
     if (!firmaVacia()) {
-      try { doc.addImage(firmaCanvas.toDataURL('image/png'), 'PNG', M + 2, y + 2, 66, 26); } catch(e) {}
+      // Reducimos la firma para que pese menos
+      const tmpCanvas = document.createElement('canvas');
+      tmpCanvas.width = 300; tmpCanvas.height = 100;
+      const tmpCtx = tmpCanvas.getContext('2d');
+      tmpCtx.drawImage(firmaCanvas, 0, 0, 300, 100);
+      try { doc.addImage(tmpCanvas.toDataURL('image/jpeg', 0.7), 'JPEG', M + 2, y + 2, 68, 28); } catch(e) {}
     }
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(80, 80, 80);
-    doc.text('Firma del solicitante', M + 35, y + 35, { align: 'center' });
+    doc.text('Firma del solicitante', M + 36, y + 37, { align: 'center' });
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
     doc.setTextColor(0, 0, 0);
-    doc.text('Fecha: ', 115, y + 20);
+    doc.text('Fecha:', 110, y + 22);
     doc.setFont('helvetica', 'bold');
-    doc.text(datos.fecha, 128, y + 20);
+    doc.text(datos.fecha, 123, y + 22);
     doc.setLineWidth(0.2);
-    doc.line(115, y + 22, 192, y + 22);
-    y += 42;
+    linea(110, W - M, y + 23.5);
+    y += 44;
 
     // ── Línea separadora ──
     doc.setLineWidth(0.5);
@@ -378,10 +427,9 @@
     // ── Texto legal ──
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
-    doc.setTextColor(80, 80, 80);
+    doc.setTextColor(60, 60, 60);
     const legal = 'La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.';
-    const lineasLegal = doc.splitTextToSize(legal, W - M*2);
-    doc.text(lineasLegal, M, y);
+    doc.text(doc.splitTextToSize(legal, W - M*2), M, y);
 
     return doc.output('datauristring');
   }
@@ -425,7 +473,7 @@
       }
     } catch (err) {
       msgBox.className = 'message-box error';
-      msgBox.textContent = 'Error al enviar la solicitud. Por favor, inténtalo de nuevo o contacta con el sindicato.';
+      msgBox.textContent = 'Error al enviar la solicitud. Inténtalo de nuevo o contacta con el sindicato.';
       console.error(err);
     } finally {
       btn.disabled = false;
