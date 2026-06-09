@@ -396,10 +396,8 @@
     doc.rect(M, y, 72, 32);
 
     if (!firmaVacia()) {
-      // Reducimos la firma para que pese menos
-      const tmpCanvas = document.createElement('canvas');
-      tmpCanvas.width = 300; tmpCanvas.height = 100;
-      const tmpCtx = tmpCanvas.getContext('2d');
+      doc.setFillColor(255, 255, 255);
+      doc.rect(M + 2, y + 2, 68, 28, 'F');
       try { doc.addImage(firmaCanvas.toDataURL('image/png'), 'PNG', M + 2, y + 2, 68, 28); } catch(e) {}
     }
 
