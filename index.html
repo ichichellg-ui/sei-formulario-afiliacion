@@ -400,10 +400,7 @@
       const tmpCanvas = document.createElement('canvas');
       tmpCanvas.width = 300; tmpCanvas.height = 100;
       const tmpCtx = tmpCanvas.getContext('2d');
-      tmpCtx.fillStyle = '#ffffff';
-tmpCtx.fillRect(0, 0, 300, 100);
-tmpCtx.drawImage(firmaCanvas, 0, 0, 300, 100);
-      try { doc.addImage(tmpCanvas.toDataURL('image/jpeg', 0.7), 'JPEG', M + 2, y + 2, 68, 28); } catch(e) {}
+      try { doc.addImage(firmaCanvas.toDataURL('image/png'), 'PNG', M + 2, y + 2, 68, 28); } catch(e) {}
     }
 
     doc.setFont('helvetica', 'normal');
