@@ -433,8 +433,8 @@
           <input type="text" id="empresa" placeholder="Empresa empleadora">
         </div>
         <div class="field">
-          <label>Nº de Turno</label>
-          <input type="text" id="numTurno" placeholder="00000">
+          <label>Nº de Chapa</label>
+          <input type="text" id="numChapa" placeholder="00000">
         </div>
       </div>
 
@@ -609,7 +609,7 @@
       // ── DATOS LABORALES ──
       y = section('Datos laborales', y);
       row('Empresa', datos.empresa, M, null, y, 100);
-      row('Nº Turno', datos.numTurno, 125, null, y, 55);
+      row('Nº Chapa', datos.numChapa, 125, null, y, 55);
       y += 18;
 
       // ── DOMICILIACIÓN BANCARIA ──
@@ -678,7 +678,7 @@
         localidad: getVal('localidad'),
         provincia: getVal('provincia'),
         empresa: getVal('empresa'),
-        numTurno: getVal('numTurno'),
+        numChapa: getVal('numChapa'),
         banco: getVal('banco'),
         provinciaBanco: getVal('provinciaBanco'),
         direccionBanco: getVal('direccionBanco'),
