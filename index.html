@@ -20,289 +20,73 @@
       --red: #c0392b;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Barlow', sans-serif; background: var(--navy); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: 'Barlow', sans-serif;
-      background: var(--navy);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── HEADER ─────────────────────────────────────────── */
-    header {
-      background: var(--navy);
-      padding: 0;
-      position: relative;
-      overflow: hidden;
-    }
+    header { background: var(--navy); padding: 0; position: relative; overflow: hidden; }
     header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: 
-        radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(15,28,46,0.9) 0%, transparent 50%);
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(15,28,46,0.9) 0%, transparent 50%);
     }
-    .header-inner {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 2.5rem 2rem;
-    }
-    .logo-block {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-shrink: 0;
-    }
-    .crane-icon {
-      width: 64px;
-      height: 64px;
-    }
-    .brand-text { }
-    .brand-sei {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: var(--white);
-      line-height: 1;
-      letter-spacing: 0.05em;
-    }
-    .brand-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.2em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-    .divider-v {
-      width: 1px;
-      height: 60px;
-      background: rgba(201,168,76,0.3);
-      flex-shrink: 0;
-    }
-    .header-title {
-      font-family: 'Barlow Condensed', sans-serif;
-    }
-    .header-title h1 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .header-title p {
-      font-size: 0.8rem;
-      color: rgba(245,243,238,0.5);
-      margin-top: 0.3rem;
-      font-weight: 300;
-    }
-    .gold-bar {
-      height: 3px;
-      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, transparent 100%);
-    }
+    .header-inner { position: relative; display: flex; align-items: center; gap: 2rem; max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem; }
+    .logo-block { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+    .crane-icon { width: 64px; height: 64px; }
+    .brand-sei { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--white); line-height: 1; letter-spacing: 0.05em; }
+    .brand-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+    .divider-v { width: 1px; height: 60px; background: rgba(201,168,76,0.3); flex-shrink: 0; }
+    .header-title { font-family: 'Barlow Condensed', sans-serif; }
+    .header-title h1 { font-size: 1.1rem; font-weight: 600; color: var(--gold-light); letter-spacing: 0.15em; text-transform: uppercase; }
+    .header-title p { font-size: 0.8rem; color: rgba(245,243,238,0.5); margin-top: 0.3rem; font-weight: 300; }
+    .gold-bar { height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 50%, transparent 100%); }
 
-    /* ── MAIN ────────────────────────────────────────────── */
-    main {
-      background: var(--white);
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 2rem 4rem;
-    }
+    main { background: var(--white); max-width: 860px; margin: 0 auto; padding: 3rem 2rem 4rem; }
 
-    /* Section headers */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin: 2.5rem 0 1.25rem;
-    }
+    .section-header { display: flex; align-items: center; gap: 0.75rem; margin: 2.5rem 0 1.25rem; }
     .section-header:first-of-type { margin-top: 0; }
-    .section-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--navy);
-      color: var(--gold);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .section-header h2 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--navy);
-    }
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: var(--light);
-    }
+    .section-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: var(--gold); font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .section-header h2 { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); }
+    .section-line { flex: 1; height: 1px; background: var(--light); }
 
-    /* Alta / Baja toggle */
-    .tipo-toggle {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-      background: var(--light);
-      padding: 0.3rem;
-      border-radius: 8px;
-      width: fit-content;
-    }
-    .tipo-btn {
-      padding: 0.5rem 2rem;
-      border: none;
-      border-radius: 6px;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: transparent;
-      color: var(--muted);
-    }
-    .tipo-btn.active-alta {
-      background: var(--navy);
-      color: var(--gold);
-    }
-    .tipo-btn.active-baja {
-      background: var(--red);
-      color: white;
-    }
+    .tipo-toggle { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; background: var(--light); padding: 0.3rem; border-radius: 8px; width: fit-content; }
+    .tipo-btn { padding: 0.5rem 2rem; border: none; border-radius: 6px; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--muted); }
+    .tipo-btn.active-alta { background: var(--navy); color: var(--gold); }
+    .tipo-btn.active-baja { background: var(--red); color: white; }
 
-    /* Fields */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
     .grid-14 { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
-    .full { grid-column: 1 / -1; }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-    label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    input, select, textarea {
-      font-family: 'Barlow', sans-serif;
-      font-size: 0.95rem;
-      padding: 0.65rem 0.85rem;
-      border: 1.5px solid #d1cfc8;
-      border-radius: 6px;
-      background: white;
-      color: var(--text);
-      transition: border-color 0.15s, box-shadow 0.15s;
-      width: 100%;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(15,28,46,0.08);
-    }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    input, select, textarea { font-family: 'Barlow', sans-serif; font-size: 0.95rem; padding: 0.65rem 0.85rem; border: 1.5px solid #d1cfc8; border-radius: 6px; background: white; color: var(--text); transition: border-color 0.15s, box-shadow 0.15s; width: 100%; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,28,46,0.08); }
     input::placeholder { color: #b0aca4; }
 
-    /* Bank section */
-    .bank-box {
-      border: 1.5px solid #d1cfc8;
-      border-radius: 8px;
-      padding: 1.25rem;
-      background: #faf9f7;
-    }
-    .bank-box-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--navy);
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #d1cfc8;
-    }
-    .bank-note {
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-style: italic;
-    }
+    .bank-box { border: 1.5px solid #d1cfc8; border-radius: 8px; padding: 1.25rem; background: #faf9f7; }
+    .bank-box-title { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #d1cfc8; }
+    .bank-note { font-size: 0.72rem; color: var(--muted); font-style: italic; }
 
-    /* Submit */
-    .submit-area {
-      margin-top: 2.5rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--light);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-    .legal-text {
-      font-size: 0.72rem;
-      color: var(--muted);
-      line-height: 1.6;
-      text-align: justify;
-      max-width: 640px;
-    }
-    .btn-submit {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: var(--navy);
-      color: var(--gold);
-      border: none;
-      padding: 1rem 3rem;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+    /* Firma canvas */
+    .firma-box { border: 1.5px solid #d1cfc8; border-radius: 8px; padding: 1rem; background: white; }
+    .firma-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .firma-header label { margin: 0; }
+    .btn-borrar-firma { font-size: 0.75rem; color: var(--red); background: none; border: none; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .btn-borrar-firma:hover { background: #fdecea; }
+    #firmaCanvas { width: 100%; border: 1.5px dashed #d1cfc8; border-radius: 6px; background: #faf9f7; cursor: crosshair; touch-action: none; display: block; }
+    .firma-hint { font-size: 0.7rem; color: #b0aca4; margin-top: 0.4rem; text-align: center; }
+
+    .submit-area { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--light); display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .legal-text { font-size: 0.72rem; color: var(--muted); line-height: 1.6; text-align: justify; max-width: 640px; }
+    .btn-submit { display: flex; align-items: center; gap: 0.75rem; background: var(--navy); color: var(--gold); border: none; padding: 1rem 3rem; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
     .btn-submit:hover { background: var(--navy-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(15,28,46,0.25); }
     .btn-submit:active { transform: translateY(0); }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-    /* Success / Error */
-    .message-box {
-      display: none;
-      padding: 1.25rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-align: center;
-      max-width: 540px;
-    }
+    .message-box { display: none; padding: 1.25rem 1.5rem; border-radius: 8px; font-size: 0.9rem; font-weight: 500; text-align: center; max-width: 540px; }
     .message-box.success { display: block; background: #e8f5e9; color: #2e7d32; border: 1.5px solid #a5d6a7; }
     .message-box.error { display: block; background: #fdecea; color: #c62828; border: 1.5px solid #ef9a9a; }
 
-    /* Footer */
-    footer {
-      background: var(--navy);
-      text-align: center;
-      padding: 1.5rem;
-      color: rgba(245,243,238,0.3);
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
-    }
+    footer { background: var(--navy); text-align: center; padding: 1.5rem; color: rgba(245,243,238,0.3); font-size: 0.72rem; letter-spacing: 0.05em; }
 
-    /* Responsive */
     @media (max-width: 600px) {
       .header-inner { flex-wrap: wrap; gap: 1rem; }
       .divider-v { display: none; }
@@ -314,11 +98,9 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="header-inner">
       <div class="logo-block">
-        <!-- Crane SVG icon -->
         <svg class="crane-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="26" y="32" width="6" height="28" fill="#c9a84c"/>
           <rect x="20" y="30" width="24" height="4" rx="1" fill="#c9a84c"/>
@@ -348,11 +130,10 @@
     <div class="gold-bar"></div>
   </header>
 
-  <!-- MAIN FORM -->
   <main>
     <form id="afilForm" autocomplete="off">
 
-      <!-- Tipo -->
+      <!-- 0. Tipo -->
       <div class="section-header">
         <span class="section-num">0</span>
         <h2>Tipo de solicitud</h2>
@@ -368,77 +149,41 @@
         <input type="text" id="motivo" placeholder="Indique el motivo">
       </div>
 
-      <!-- Datos personales -->
+      <!-- 1. Datos personales -->
       <div class="section-header">
         <span class="section-num">1</span>
         <h2>Datos personales</h2>
         <div class="section-line"></div>
       </div>
       <div class="grid-2" style="margin-bottom:1rem;">
-        <div class="field">
-          <label>Nombre *</label>
-          <input type="text" id="nombre" placeholder="Nombre" required>
-        </div>
-        <div class="field">
-          <label>Apellidos *</label>
-          <input type="text" id="apellidos" placeholder="Apellidos" required>
-        </div>
+        <div class="field"><label>Nombre *</label><input type="text" id="nombre" placeholder="Nombre" required></div>
+        <div class="field"><label>Apellidos *</label><input type="text" id="apellidos" placeholder="Apellidos" required></div>
       </div>
       <div class="grid-3" style="margin-bottom:1rem;">
-        <div class="field">
-          <label>DNI / NIE *</label>
-          <input type="text" id="dni" placeholder="00000000X" required>
-        </div>
-        <div class="field">
-          <label>Fecha de nacimiento</label>
-          <input type="date" id="fechaNac">
-        </div>
-        <div class="field">
-          <label>Teléfono / Móvil</label>
-          <input type="tel" id="telefono" placeholder="600 000 000">
-        </div>
+        <div class="field"><label>DNI / NIE *</label><input type="text" id="dni" placeholder="00000000X" required></div>
+        <div class="field"><label>Fecha de nacimiento</label><input type="date" id="fechaNac"></div>
+        <div class="field"><label>Teléfono / Móvil</label><input type="tel" id="telefono" placeholder="600 000 000"></div>
       </div>
-      <div class="field" style="margin-bottom:1rem;">
-        <label>Email</label>
-        <input type="email" id="email" placeholder="correo@ejemplo.com">
-      </div>
-      <div class="field" style="margin-bottom:1rem;">
-        <label>Domicilio</label>
-        <input type="text" id="domicilio" placeholder="Calle, número, piso...">
-      </div>
+      <div class="field" style="margin-bottom:1rem;"><label>Email</label><input type="email" id="email" placeholder="correo@ejemplo.com"></div>
+      <div class="field" style="margin-bottom:1rem;"><label>Domicilio</label><input type="text" id="domicilio" placeholder="Calle, número, piso..."></div>
       <div class="grid-3" style="margin-bottom:0.5rem;">
-        <div class="field">
-          <label>C.P.</label>
-          <input type="text" id="cp" placeholder="46000" maxlength="5">
-        </div>
-        <div class="field">
-          <label>Localidad</label>
-          <input type="text" id="localidad" placeholder="Valencia">
-        </div>
-        <div class="field">
-          <label>Provincia</label>
-          <input type="text" id="provincia" placeholder="Valencia">
-        </div>
+        <div class="field"><label>C.P.</label><input type="text" id="cp" placeholder="46000" maxlength="5"></div>
+        <div class="field"><label>Localidad</label><input type="text" id="localidad" placeholder="Valencia"></div>
+        <div class="field"><label>Provincia</label><input type="text" id="provincia" placeholder="Valencia"></div>
       </div>
 
-      <!-- Datos laborales -->
+      <!-- 2. Datos laborales -->
       <div class="section-header">
         <span class="section-num">2</span>
         <h2>Datos laborales</h2>
         <div class="section-line"></div>
       </div>
       <div class="grid-14" style="margin-bottom:0.5rem;">
-        <div class="field">
-          <label>Empresa</label>
-          <input type="text" id="empresa" placeholder="Empresa empleadora">
-        </div>
-        <div class="field">
-          <label>Nº de Chapa</label>
-          <input type="text" id="numChapa" placeholder="00000">
-        </div>
+        <div class="field"><label>Empresa</label><input type="text" id="empresa" placeholder="Empresa empleadora"></div>
+        <div class="field"><label>Nº de Chapa</label><input type="text" id="numChapa" placeholder="00000"></div>
       </div>
 
-      <!-- Domiciliación bancaria -->
+      <!-- 3. Domiciliación bancaria -->
       <div class="section-header">
         <span class="section-num">3</span>
         <h2>Domiciliación bancaria</h2>
@@ -447,23 +192,26 @@
       <div class="bank-box">
         <div class="bank-box-title">Sólo para trabajadores de la Bolsa <span class="bank-note"> — autorización de descuento en nómina</span></div>
         <div class="grid-2" style="margin-bottom:1rem;">
-          <div class="field">
-            <label>Banco o caja</label>
-            <input type="text" id="banco" placeholder="Nombre del banco">
-          </div>
-          <div class="field">
-            <label>Provincia del banco</label>
-            <input type="text" id="provinciaBanco" placeholder="Valencia">
-          </div>
+          <div class="field"><label>Banco o caja</label><input type="text" id="banco" placeholder="Nombre del banco"></div>
+          <div class="field"><label>Provincia del banco</label><input type="text" id="provinciaBanco" placeholder="Valencia"></div>
         </div>
-        <div class="field" style="margin-bottom:1rem;">
-          <label>Dirección del banco</label>
-          <input type="text" id="direccionBanco" placeholder="Calle, número...">
+        <div class="field" style="margin-bottom:1rem;"><label>Dirección del banco</label><input type="text" id="direccionBanco" placeholder="Calle, número..."></div>
+        <div class="field"><label>Nº de cuenta (IBAN)</label><input type="text" id="numCuenta" placeholder="ES00 0000 0000 0000 0000 0000" maxlength="29"></div>
+      </div>
+
+      <!-- 4. Firma -->
+      <div class="section-header">
+        <span class="section-num">4</span>
+        <h2>Firma del solicitante</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="firma-box">
+        <div class="firma-header">
+          <label>Dibuja tu firma aquí</label>
+          <button type="button" class="btn-borrar-firma" onclick="limpiarFirma()">✕ Borrar firma</button>
         </div>
-        <div class="field">
-          <label>Nº de cuenta (IBAN)</label>
-          <input type="text" id="numCuenta" placeholder="ES00 0000 0000 0000 0000 0000" maxlength="29">
-        </div>
+        <canvas id="firmaCanvas" width="800" height="180"></canvas>
+        <p class="firma-hint">Usa el dedo o el ratón para firmar</p>
       </div>
 
       <!-- Submit -->
@@ -487,50 +235,112 @@
   <script>
     const WEBHOOK_URL = 'https://hook.eu1.make.com/t8sglnpy3m524sqeiakwg2u93lhf9xp1';
 
+    // ── Tipo Alta/Baja ────────────────────────────────────────────────────
     function setTipo(t) {
       document.getElementById('tipo').value = t;
-      const alta = document.getElementById('btnAlta');
-      const baja = document.getElementById('btnBaja');
-      const motivoField = document.getElementById('motivoField');
-      alta.className = 'tipo-btn' + (t === 'alta' ? ' active-alta' : '');
-      baja.className = 'tipo-btn' + (t === 'baja' ? ' active-baja' : '');
-      motivoField.style.display = t === 'baja' ? 'block' : 'none';
+      document.getElementById('btnAlta').className = 'tipo-btn' + (t === 'alta' ? ' active-alta' : '');
+      document.getElementById('btnBaja').className = 'tipo-btn' + (t === 'baja' ? ' active-baja' : '');
+      document.getElementById('motivoField').style.display = t === 'baja' ? 'block' : 'none';
     }
 
     function getVal(id) { return (document.getElementById(id)?.value || '').trim(); }
 
+    // ── Canvas de firma ───────────────────────────────────────────────────
+    const firmaCanvas = document.getElementById('firmaCanvas');
+    const firmaCtx = firmaCanvas.getContext('2d');
+    let firmaDibujando = false;
+    let firmaUltPos = { x: 0, y: 0 };
+
+    function getPosCanvas(e) {
+      const rect = firmaCanvas.getBoundingClientRect();
+      const scaleX = firmaCanvas.width / rect.width;
+      const scaleY = firmaCanvas.height / rect.height;
+      const src = e.touches ? e.touches[0] : e;
+      return {
+        x: (src.clientX - rect.left) * scaleX,
+        y: (src.clientY - rect.top) * scaleY
+      };
+    }
+
+    firmaCanvas.addEventListener('mousedown', e => {
+      firmaDibujando = true;
+      firmaUltPos = getPosCanvas(e);
+    });
+    firmaCanvas.addEventListener('mousemove', e => {
+      if (!firmaDibujando) return;
+      const pos = getPosCanvas(e);
+      firmaCtx.beginPath();
+      firmaCtx.moveTo(firmaUltPos.x, firmaUltPos.y);
+      firmaCtx.lineTo(pos.x, pos.y);
+      firmaCtx.strokeStyle = '#0f1c2e';
+      firmaCtx.lineWidth = 2.5;
+      firmaCtx.lineCap = 'round';
+      firmaCtx.lineJoin = 'round';
+      firmaCtx.stroke();
+      firmaUltPos = pos;
+    });
+    firmaCanvas.addEventListener('mouseup', () => firmaDibujando = false);
+    firmaCanvas.addEventListener('mouseleave', () => firmaDibujando = false);
+
+    firmaCanvas.addEventListener('touchstart', e => {
+      e.preventDefault();
+      firmaDibujando = true;
+      firmaUltPos = getPosCanvas(e);
+    }, { passive: false });
+    firmaCanvas.addEventListener('touchmove', e => {
+      e.preventDefault();
+      if (!firmaDibujando) return;
+      const pos = getPosCanvas(e);
+      firmaCtx.beginPath();
+      firmaCtx.moveTo(firmaUltPos.x, firmaUltPos.y);
+      firmaCtx.lineTo(pos.x, pos.y);
+      firmaCtx.strokeStyle = '#0f1c2e';
+      firmaCtx.lineWidth = 2.5;
+      firmaCtx.lineCap = 'round';
+      firmaCtx.lineJoin = 'round';
+      firmaCtx.stroke();
+      firmaUltPos = pos;
+    }, { passive: false });
+    firmaCanvas.addEventListener('touchend', () => firmaDibujando = false);
+
+    function limpiarFirma() {
+      firmaCtx.clearRect(0, 0, firmaCanvas.width, firmaCanvas.height);
+    }
+
+    function firmaVacia() {
+      const data = firmaCtx.getImageData(0, 0, firmaCanvas.width, firmaCanvas.height).data;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] > 0) return false;
+      }
+      return true;
+    }
+
+    // ── Generación PDF ────────────────────────────────────────────────────
     function generarPDF(datos) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-      const W = 210, H = 297;
-      const M = 20; // margin
+      const W = 210, H = 297, M = 20;
 
-      // Background
       doc.setFillColor(255, 255, 255);
       doc.rect(0, 0, W, H, 'F');
 
-      // Header bar top
+      // Header
       doc.setFillColor(15, 28, 46);
       doc.rect(0, 0, W, 38, 'F');
-
-      // Gold accent bar
       doc.setFillColor(201, 168, 76);
       doc.rect(0, 38, W, 2, 'F');
 
-      // SEI text
       doc.setTextColor(201, 168, 76);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(28);
       doc.text('S.E.I.', M, 22);
 
-      // Subtitle
       doc.setTextColor(245, 243, 238);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7.5);
       doc.text('SINDICATO DE ESTIBADORES INDEPENDIENTE', M, 28);
       doc.text('Ampliación Sur S/N · Edificio SEVASA · Puerto de Valencia · 46024 VALENCIA', M, 33);
 
-      // Title right
       doc.setFillColor(201, 168, 76);
       doc.roundedRect(120, 10, 72, 16, 2, 2, 'F');
       doc.setTextColor(15, 28, 46);
@@ -539,7 +349,7 @@
       doc.text('SOLICITUD DE', 156, 17, { align: 'center' });
       doc.text('AFILIACIÓN', 156, 23, { align: 'center' });
 
-      // Alta / Baja indicator
+      // Alta/Baja
       const esAlta = datos.tipo === 'alta';
       doc.setFontSize(8);
       doc.setFont('helvetica', 'bold');
@@ -559,7 +369,6 @@
 
       let y = 58;
 
-      // Section helper
       const section = (title, yPos) => {
         doc.setFillColor(15, 28, 46);
         doc.rect(M, yPos, W - M*2, 6, 'F');
@@ -570,7 +379,6 @@
         return yPos + 10;
       };
 
-      // Row helper
       const row = (label, value, xLeft, xRight, yPos, width = 80) => {
         doc.setTextColor(120, 120, 120);
         doc.setFont('helvetica', 'normal');
@@ -584,60 +392,62 @@
         doc.line(xLeft, yPos + 6.5, xLeft + width - 3, yPos + 6.5);
       };
 
-      // ── DATOS PERSONALES ──
+      // Datos personales
       y = section('Datos personales', y);
       row('Nombre', datos.nombre, M, null, y, 80);
       row('Apellidos', datos.apellidos, 110, null, y, 80);
       y += 16;
-
       row('DNI / NIE', datos.dni, M, null, y, 50);
       row('Fecha de nacimiento', datos.fechaNac || '—', 75, null, y, 55);
       row('Teléfono/Móvil', datos.telefono, 140, null, y, 50);
       y += 16;
-
       row('Email', datos.email, M, null, y, 170);
       y += 16;
-
       row('Domicilio', datos.domicilio, M, null, y, 170);
       y += 16;
-
       row('C.P.', datos.cp, M, null, y, 22);
       row('Localidad', datos.localidad, 45, null, y, 70);
       row('Provincia', datos.provincia, 125, null, y, 55);
       y += 18;
 
-      // ── DATOS LABORALES ──
+      // Datos laborales
       y = section('Datos laborales', y);
       row('Empresa', datos.empresa, M, null, y, 100);
       row('Nº Chapa', datos.numChapa, 125, null, y, 55);
       y += 18;
 
-      // ── DOMICILIACIÓN BANCARIA ──
+      // Domiciliación bancaria
       y = section('Domiciliación bancaria  (Sólo trabajadores de la Bolsa)', y);
-
-      // Bank box
       doc.setDrawColor(200, 198, 195);
       doc.setFillColor(250, 249, 247);
       doc.roundedRect(M, y, W - M*2, 40, 2, 2, 'FD');
-
       row('Banco o caja', datos.banco, M + 4, null, y + 6, 80);
       row('Provincia', datos.provinciaBanco, 120, null, y + 6, 68);
       row('Dirección', datos.direccionBanco, M + 4, null, y + 22, 170);
       row('Nº Cuenta (IBAN)', datos.numCuenta, M + 4, null, y + 38, 170);
       y += 50;
 
-      // ── FIRMA Y FECHA ──
+      // Firma y fecha
       y = section('Firma y fecha', y);
 
-      // Signature box
+      // Cuadro de firma
       doc.setDrawColor(180, 178, 175);
-      doc.roundedRect(M, y, 70, 28, 1, 1, 'D');
-      doc.setTextColor(180, 180, 180);
+      doc.setFillColor(255, 255, 255);
+      doc.roundedRect(M, y, 80, 32, 1, 1, 'FD');
+
+      // Insertar imagen de la firma si existe
+      if (datos.firma && !firmaVaciaCheck(datos.firma)) {
+        try {
+          doc.addImage(datos.firma, 'PNG', M + 2, y + 2, 76, 28);
+        } catch(e) {}
+      }
+
+      doc.setTextColor(160, 160, 160);
       doc.setFont('helvetica', 'italic');
       doc.setFontSize(7);
-      doc.text('Firma del solicitante', M + 35, y + 34, { align: 'center' });
+      doc.text('Firma del solicitante', M + 40, y + 38, { align: 'center' });
 
-      // Date
+      // Fecha
       doc.setTextColor(80, 80, 80);
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
@@ -645,7 +455,7 @@
       doc.setDrawColor(180, 180, 180);
       doc.line(120, y + 22, 185, y + 22);
 
-      // Footer
+      // Footer legal
       y = H - 25;
       doc.setFillColor(240, 238, 234);
       doc.rect(0, y, W, 25, 'F');
@@ -661,6 +471,15 @@
       return doc.output('datauristring');
     }
 
+    function firmaVaciaCheck(dataUrl) {
+      // Si el dataUrl es el canvas vacío, no lo insertamos
+      const emptyCanvas = document.createElement('canvas');
+      emptyCanvas.width = firmaCanvas.width;
+      emptyCanvas.height = firmaCanvas.height;
+      return dataUrl === emptyCanvas.toDataURL('image/png');
+    }
+
+    // ── Submit ────────────────────────────────────────────────────────────
     document.getElementById('afilForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -683,6 +502,7 @@
         provinciaBanco: getVal('provinciaBanco'),
         direccionBanco: getVal('direccionBanco'),
         numCuenta: getVal('numCuenta'),
+        firma: firmaCanvas.toDataURL('image/png'),
         fecha: new Date().toLocaleDateString('es-ES')
       };
 
@@ -694,11 +514,9 @@
       msgBox.textContent = '';
 
       try {
-        // Generate PDF
         const pdfDataUri = generarPDF(datos);
         const base64 = pdfDataUri.split(',')[1];
 
-        // Send to Make.com webhook
         const res = await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -709,6 +527,7 @@
           msgBox.className = 'message-box success';
           msgBox.textContent = '✓ Solicitud enviada correctamente. Recibirás confirmación en breve.';
           document.getElementById('afilForm').reset();
+          limpiarFirma();
           setTipo('alta');
         } else {
           throw new Error('Error ' + res.status);
