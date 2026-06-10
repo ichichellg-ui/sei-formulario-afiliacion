@@ -451,17 +451,21 @@
     try {
       const pdfDataUri = generarPDF(datos);
       const base64 = pdfDataUri.split(',')[1];
-      const res = await fetch(WEBHOOK_URL, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+      // Make procesa la peticion correctamente, pero su respuesta no incluye
+      // cabeceras CORS, por lo que el navegador no puede leer res.ok en una
+      // peticion normal. Usamos text/plain (peticion "simple", sin preflight)
+      // y no dependemos de poder leer la respuesta: si fetch no lanza error de
+      // red, la solicitud ha llegado a Make.
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify({ ...datos, pdfBase64: base64 })
       });
-      if (res.ok || res.status === 200) {
-        msgBox.className = 'message-box success';
-        msgBox.textContent = '✓ Solicitud enviada correctamente.';
-        document.getElementById('afilForm').reset();
-        limpiarFirma();
-        setTipo('alta');
-      } else { throw new Error('Error ' + res.status); }
+      msgBox.className = 'message-box success';
+      msgBox.textContent = '✓ Solicitud enviada correctamente.';
+      document.getElementById('afilForm').reset();
+      limpiarFirma();
+      setTipo('alta');
     } catch (err) {
       msgBox.className = 'message-box error';
       msgBox.textContent = 'Error al enviar la solicitud. Inténtalo de nuevo o contacta con el sindicato.';
