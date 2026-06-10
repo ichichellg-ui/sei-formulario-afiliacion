@@ -368,52 +368,85 @@
   }
 
   // ── PÁGINA BAJA (genérica, SIN referencias al SEI) ────────────────────
+// ── PÁGINA BAJA (igual al modelo) ─────────────────────────────────────
   function paginaBaja(doc, datos) {
     const W = 210, M = 15;
 
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, W, 297, 'F');
 
-    // Título centrado, sin logo ni referencias
+    // Título recuadrado centrado
     doc.setDrawColor(0,0,0); doc.setLineWidth(0.6);
-    doc.rect(55, 18, 100, 14);
+    doc.rect(55, 16, 100, 12);
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(0,0,0);
-    doc.text('SOLICITUD DE BAJA SINDICAL', 105, 27, { align: 'center' });
+    doc.text('SOLICITUD DE BAJA AFILIACIÓN', 105, 24, { align: 'center' });
 
-    doc.setLineWidth(0.4);
-    doc.line(M, 42, W - M, 42);
+    // BAJA [X] + SINDICATO: ____
+    let y = 38;
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9);
+    doc.text('BAJA', M, y);
+    doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
+    doc.rect(M + 11, y - 3.2, 4, 4);
+    doc.text('X', M + 11.8, y);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SINDICATO:', 85, y);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+    if (datos.sindicatoBaja) doc.text(datos.sindicatoBaja, 108, y);
+    doc.setLineWidth(0.2);
+    doc.line(107, y + 1, W - M, y + 1);
 
-    let y = 52;
+    y = 52;
     const linea = (x1, x2, yp) => { doc.setDrawColor(0,0,0); doc.setLineWidth(0.2); doc.line(x1, yp, x2, yp); };
     const etiqueta = (txt, x, yp) => { doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(30,30,30); doc.text(txt + ':', x, yp); };
     const valor = (txt, x, yp) => { if (!txt) return; doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(0,0,0); doc.text(txt, x, yp); };
     const seccion = (t, yp) => { doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(0,0,0); doc.text('• ' + t, M, yp); return yp + 7; };
 
+    // ── Datos personales ──
     y = seccion('Datos personales', y);
-    etiqueta('Nombre', M, y); valor(datos.nombre, M + 16, y); linea(M + 15, 100, y + 0.5);
+    etiqueta('Nombre', M, y); valor(datos.nombre, M + 16, y); linea(M + 15, W - M, y + 0.5);
     y += 8;
     etiqueta('Apellidos', M, y); valor(datos.apellidos, M + 20, y); linea(M + 19, W - M, y + 0.5);
     y += 8;
-    etiqueta('DNI', M, y); valor(datos.dni, M + 10, y); linea(M + 9, 78, y + 0.5);
-    etiqueta('Teléfono', 85, y); valor(datos.telefono, 85 + 17, y); linea(85 + 16, W - M, y + 0.5);
+    etiqueta('DNI', M, y); valor(datos.dni, M + 10, y); linea(M + 9, 100, y + 0.5);
+    etiqueta('Fecha de nacimiento', 108, y); linea(108 + 35, W - M, y + 0.5);
+    y += 8;
+    etiqueta('Teléfono/Móvil/E-mail', M, y); valor(datos.telefono, M + 40, y); linea(M + 39, W - M, y + 0.5);
+    y += 8;
+    etiqueta('Domicilio', M, y); linea(M + 19, W - M, y + 0.5);
+    y += 7;
+    etiqueta('C.P.', M, y); linea(M + 9, 45, y + 0.5);
+    etiqueta('Localidad', 48, y); linea(48 + 18, 105, y + 0.5);
+    etiqueta('Provincia', 110, y); linea(110 + 17, W - M, y + 0.5);
     y += 12;
 
+    // ── Datos laborales ──
     y = seccion('Datos laborales', y);
-    etiqueta('Nº Turno', M, y); valor(datos.numTurno, M + 19, y); linea(M + 18, 90, y + 0.5);
-    y += 14;
+    etiqueta('Empresa', M, y); linea(M + 17, 95, y + 0.5);
+    etiqueta('Nº Turno', 100, y); valor(datos.numTurno, 100 + 19, y); linea(100 + 18, W - M, y + 0.5);
+    y += 12;
 
-    y = seccion('Solicitud de baja', y);
-    etiqueta('Sindicato', M, y); valor(datos.sindicatoBaja, M + 19, y); linea(M + 18, W - M, y + 0.5);
-    y += 10;
+    // ── Domiciliación bancaria ──
+    doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
+    doc.rect(M, y, W - M*2, 34);
+    doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
+    doc.text('Domiciliación bancaria (Sólo trabajadores de la Bolsa)', (W - M*2)/2 + M, y + 5.5, { align: 'center' });
+    const filasBanco = [['Banco o caja', y+12], ['Dirección', y+19], ['Provincia', y+26], ['Nº Cuenta', y+33]];
+    doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    filasBanco.forEach(([lbl, yb]) => {
+      etiqueta(lbl, M + 3, yb);
+      linea(M + 3 + doc.getTextWidth(lbl + ':') + 2, W - M - 3, yb + 0.5);
+    });
+    y += 40;
 
-    doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(0,0,0);
-    doc.text('Solicito', M, y);
-    doc.setFont('helvetica','normal');
-    const txtBaja = ' que desde la recepción de la presente se proceda a tramitar mi baja como afiliado/a del sindicato arriba indicado a todos los efectos, dejando sin efecto la autorización de descuento en nómina de la cuota sindical correspondiente.';
-    const lineasBaja = doc.splitTextToSize('Solicito' + txtBaja, W - M*2);
+    // ── Descuento en nómina ──
+    y = seccion('Descuento en nómina', y);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(0,0,0);
+    const txtBaja = 'Solicito que desde la recepción de la presente procedan mensualmente a descontar de mi nómina, a partir de la próxima que se encuentre por procesar, la cuota sindical que en concepto de afiliación me corresponde abonar al S.E.I.-CPEV.';
+    const lineasBaja = doc.splitTextToSize(txtBaja, W - M*2);
     doc.text(lineasBaja, M, y);
-    y += lineasBaja.length * 4.8 + 10;
+    y += lineasBaja.length * 4.8 + 4;
 
+    // ── Firma + Fecha ──
     doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
     doc.rect(M, y, 72, 32);
     dibujarFirmaVectorial(doc, M + 2, y + 2, 68, 28);
@@ -425,7 +458,15 @@
     doc.setFont('helvetica','bold');
     doc.text(datos.fecha, 123, y + 22);
     doc.setLineWidth(0.2); linea(110, W - M, y + 23.5);
-  }
+    y += 44;
+
+    // ── Línea + texto legal ──
+    doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
+    y += 5;
+    doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(60,60,60);
+    const legal = 'La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.';
+    doc.text(doc.splitTextToSize(legal, W - M*2), M, y);
+  } 
 
   // ── Generación PDF (1 o 2 páginas según tipo) ─────────────────────────
   function generarPDF(datos) {
