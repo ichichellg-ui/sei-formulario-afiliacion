@@ -237,27 +237,70 @@
     });
   }
 
-  // ── Grúa ──────────────────────────────────────────────────────────────
-  function dibujarGrua(doc, x, y, size) {
-    const s = size / 64;
-    doc.setDrawColor(80, 80, 80);
-    doc.setFillColor(80, 80, 80);
-    doc.setLineWidth(0.3);
-    doc.rect(x + 26*s, y + 32*s, 6*s, 28*s, 'F');
-    doc.rect(x + 20*s, y + 30*s, 24*s, 4*s, 'F');
-    doc.rect(x + 20*s, y + 14*s, 3*s, 18*s, 'F');
-    doc.rect(x + 12*s, y + 14*s, 32*s, 3*s, 'F');
-    doc.rect(x + 41*s, y + 14*s, 3*s, 10*s, 'F');
-    doc.setLineWidth(0.4);
-    doc.line(x + 23*s, y + 17*s, x + 29*s, y + 30*s);
-    doc.line(x + 23*s, y + 17*s, x + 35*s, y + 30*s);
-    doc.line(x + 44*s, y + 17*s, x + 35*s, y + 30*s);
-    doc.rect(x + 27*s, y + 22*s, 4*s, 8*s, 'F');
-    doc.rect(x + 40*s, y + 24*s, 4*s, 6*s, 'F');
-    doc.line(x + 42*s, y + 24*s, x + 42*s, y + 34*s);
-    doc.rect(x + 40*s, y + 33*s, 4*s, 3*s, 'F');
-    doc.setLineWidth(0.5);
-    doc.line(x + 4*s, y + 63*s, x + 60*s, y + 63*s);
+  // ── Logo SEI vectorial (replica del logo oficial) ─────────────────────
+  function dibujarLogoSEI(doc, x, y) {
+    // Todo en mm, ocupa aprox 62 x 21
+    const NEGRO = [35, 35, 35];
+    const AMARILLO = [218, 195, 50];
+
+    // ===== GRÚA DE PÓRTICO (silueta) =====
+    const gx = x, gy = y;          // origen grúa
+    const s = 21 / 24;             // escala
+    doc.setFillColor(...NEGRO);
+    doc.setDrawColor(...NEGRO);
+
+    // suelo
+    doc.rect(gx, gy + 21*s, 21*s, 1.8*s, 'F');
+    // patas
+    doc.setLineWidth(1.3*s);
+    doc.line(gx + 10*s, gy + 21*s, gx + 12*s, gy + 11.5*s);
+    doc.line(gx + 15*s, gy + 21*s, gx + 13*s, gy + 11.5*s);
+    doc.line(gx + 17.5*s, gy + 21*s, gx + 14*s, gy + 11.5*s);
+    // viga horizontal (boom hacia la izquierda)
+    doc.setLineWidth(0.9*s);
+    doc.line(gx + 0.5*s, gy + 11.5*s, gx + 15*s, gy + 11.5*s);
+    // festones colgando del boom
+    doc.setLineWidth(0.35*s);
+    for (let i = 0; i < 7; i++) {
+      const fx = gx + (1.5 + i*1.7)*s;
+      doc.line(fx, gy + 11.5*s, fx, gy + 13*s);
+    }
+    // mástil inclinado (celosía hacia arriba-derecha)
+    doc.setLineWidth(1.0*s);
+    doc.line(gx + 12*s, gy + 11.5*s, gx + 16*s, gy + 0.5*s);
+    doc.line(gx + 14*s, gy + 11.5*s, gx + 16.8*s, gy + 0.5*s);
+    // tirante desde lo alto del mástil al extremo del boom
+    doc.setLineWidth(0.45*s);
+    doc.line(gx + 16*s, gy + 1.5*s, gx + 3*s, gy + 11*s);
+    // sala de máquinas
+    doc.rect(gx + 10*s, gy + 9*s, 5.5*s, 2.5*s, 'F');
+
+    // ===== BARRA VERTICAL SEPARADORA =====
+    doc.setFillColor(...NEGRO);
+    doc.rect(x + 22, y + 1, 1.1, 19, 'F');
+
+    // ===== S E I =====
+    // S — letra normal en bold
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(38);
+    doc.setTextColor(...NEGRO);
+    doc.text('S', x + 26, y + 14.5);
+
+    // E — tres barras horizontales
+    const ex = x + 37;
+    doc.setFillColor(...NEGRO);
+    doc.rect(ex, y + 4.2,  11, 2.4, 'F');
+    doc.rect(ex, y + 8.8,  11, 2.4, 'F');
+    doc.rect(ex, y + 13.4, 11, 2.4, 'F');
+
+    // I — barra vertical gruesa
+    doc.rect(x + 52, y + 4.2, 3.4, 11.6, 'F');
+
+    // ===== DOCKERS VALENCIA en amarillo =====
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(...AMARILLO);
+    doc.text('D O C K E R S   V A L E N C I A', x + 26, y + 20);
   }
 
   // ── PÁGINA ALTA (con SEI) ─────────────────────────────────────────────
@@ -267,15 +310,8 @@
     doc.setFillColor(255, 255, 255);
     doc.rect(0, 0, W, 297, 'F');
 
-    dibujarGrua(doc, M, 2, 22);
-    doc.setDrawColor(0, 0, 0);
-    doc.setLineWidth(0.6);
-    doc.line(M + 24, 4, M + 24, 24);
-
-    doc.setFont('times', 'bold'); doc.setFontSize(22); doc.setTextColor(0,0,0);
-    doc.text('S E I', M + 28, 14);
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
-    doc.text('DOCKERS VALENCIA', M + 28, 19);
+    // Logo SEI completo (grúa + barra + SEI + Dockers Valencia)
+    dibujarLogoSEI(doc, M, 2);
 
     doc.setFontSize(7.5); doc.setTextColor(30,30,30);
     doc.text('SINDICATO DE ESTIBADORES', M, 30);
@@ -367,8 +403,7 @@
     doc.text(doc.splitTextToSize(legal, W - M*2), M, y);
   }
 
-  // ── PÁGINA BAJA (genérica, SIN referencias al SEI) ────────────────────
-// ── PÁGINA BAJA (igual al modelo) ─────────────────────────────────────
+  // ── PÁGINA BAJA (igual al modelo) ─────────────────────────────────────
   function paginaBaja(doc, datos) {
     const W = 210, M = 15;
 
@@ -388,7 +423,6 @@
     doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
     doc.rect(M + 11, y - 3.2, 4, 4);
     doc.text('X', M + 11.8, y);
-    doc.setFont('helvetica', 'bold');
     doc.text('SINDICATO:', 85, y);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
     if (datos.sindicatoBaja) doc.text(datos.sindicatoBaja, 108, y);
@@ -401,7 +435,6 @@
     const valor = (txt, x, yp) => { if (!txt) return; doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(0,0,0); doc.text(txt, x, yp); };
     const seccion = (t, yp) => { doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(0,0,0); doc.text('• ' + t, M, yp); return yp + 7; };
 
-    // ── Datos personales ──
     y = seccion('Datos personales', y);
     etiqueta('Nombre', M, y); valor(datos.nombre, M + 16, y); linea(M + 15, W - M, y + 0.5);
     y += 8;
@@ -419,26 +452,23 @@
     etiqueta('Provincia', 110, y); linea(110 + 17, W - M, y + 0.5);
     y += 12;
 
-    // ── Datos laborales ──
     y = seccion('Datos laborales', y);
     etiqueta('Empresa', M, y); linea(M + 17, 95, y + 0.5);
     etiqueta('Nº Turno', 100, y); valor(datos.numTurno, 100 + 19, y); linea(100 + 18, W - M, y + 0.5);
     y += 12;
 
-    // ── Domiciliación bancaria ──
     doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
     doc.rect(M, y, W - M*2, 34);
     doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
     doc.text('Domiciliación bancaria (Sólo trabajadores de la Bolsa)', (W - M*2)/2 + M, y + 5.5, { align: 'center' });
-    const filasBanco = [['Banco o caja', y+12], ['Dirección', y+19], ['Provincia', y+26], ['Nº Cuenta', y+33]];
+    const filasBancoB = [['Banco o caja', y+12], ['Dirección', y+19], ['Provincia', y+26], ['Nº Cuenta', y+33]];
     doc.setFont('helvetica','normal'); doc.setFontSize(8);
-    filasBanco.forEach(([lbl, yb]) => {
+    filasBancoB.forEach(([lbl, yb]) => {
       etiqueta(lbl, M + 3, yb);
       linea(M + 3 + doc.getTextWidth(lbl + ':') + 2, W - M - 3, yb + 0.5);
     });
     y += 40;
 
-    // ── Descuento en nómina ──
     y = seccion('Descuento en nómina', y);
     doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(0,0,0);
     const txtBaja = 'Solicito que desde la recepción de la presente procedan mensualmente a descontar de mi nómina, a partir de la próxima que se encuentre por procesar, la cuota sindical que en concepto de afiliación me corresponde abonar al S.E.I.-CPEV.';
@@ -446,7 +476,6 @@
     doc.text(lineasBaja, M, y);
     y += lineasBaja.length * 4.8 + 4;
 
-    // ── Firma + Fecha ──
     doc.setDrawColor(0,0,0); doc.setLineWidth(0.4);
     doc.rect(M, y, 72, 32);
     dibujarFirmaVectorial(doc, M + 2, y + 2, 68, 28);
@@ -460,13 +489,12 @@
     doc.setLineWidth(0.2); linea(110, W - M, y + 23.5);
     y += 44;
 
-    // ── Línea + texto legal ──
     doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
     y += 5;
     doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(60,60,60);
-    const legal = 'La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.';
-    doc.text(doc.splitTextToSize(legal, W - M*2), M, y);
-  } 
+    const legalB = 'La información de carácter personal contenida en este documento ha sido incorporada a un fichero titularidad del Sindicato, cuya finalidad es la emisión de recibos de la cuota sindical, gestión del cobro de esta, envío de información y publicaciones sobre cuestiones que afectan a sus afiliados y demás prestaciones de servicios de conformidad con la reglamentación interna del Sindicato. Puede ejercitar derechos de acceso, rectificación, cancelación y oposición de sus datos, solicitándolo por escrito a este Sindicato.';
+    doc.text(doc.splitTextToSize(legalB, W - M*2), M, y);
+  }
 
   // ── Generación PDF (1 o 2 páginas según tipo) ─────────────────────────
   function generarPDF(datos) {
